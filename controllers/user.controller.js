@@ -3,6 +3,7 @@ import UserModel from "../models/user.model.js"
 import sendEmail from "../config/send-email.js"
 import verifyEmailTemplate from "../utils/verify-email-template.js"
 import { generateAccessToken, generateRefreshToken } from "../utils/generateToken.js"
+import uploadImageCloudinary from "../utils/uploadImageCloudinary.js"
 
 export async function registerUserController(req, res) {
     try {
@@ -178,6 +179,67 @@ export async function logoutUserController(req, res) {
             message : "Logged out successfully !!",
             success : true,
             error : false
+        })
+    } catch(error) {
+        return res.status(500).json({
+            message : error.message || error,
+            success : false,
+            error : true
+        })
+    }
+}
+
+export async function uploadUserAvatar(req, res) {
+    try {
+        const userId = req.userId
+        const image = req.file
+        const upload = await uploadImageCloudinary(image)
+
+        const updateUser = await UserModel.findByIdAndUpdate(userId, {
+            avatar : upload.url
+        })
+
+        return res.status(200).json({
+            message : "Image uploaded successfully !!",
+            success : true,
+            error : false,
+            data : {
+                _id : userId,
+                avatar : upload.url
+            }
+        })
+    } catch(error) {
+        return res.status(500).json({
+            message : error.message || error,
+            success : false,
+            error : true
+        })
+    }
+}
+
+export async function updateUserDetails(req, res) {
+    try {
+        const userId = req.userId
+        const { name, email, mobile, password } = req.body
+
+        let hashPassword = ""
+        if (password) {
+            const salt = await bcrypt.genSalt(10)
+            hashPassword = await bcrypt.hash(password, salt)
+        }
+
+        const userUpdate = await UserModel.updateOne({ _id : userId }, {
+            ...(name && { name : name }),
+            ...(email && { email : email }),
+            ...(mobile && { mobile : mobile }),
+            ...(password && { password : hashPassword })
+        })
+
+        return res.status(200).json({
+            message : "User updated successfully !!",
+            success : true,
+            error : false,
+            data : userUpdate
         })
     } catch(error) {
         return res.status(500).json({
