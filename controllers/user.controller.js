@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken"
 import bcrypt from "bcryptjs"
 import UserModel from "../models/user.model.js"
 import sendEmail from "../config/send-email.js"
@@ -387,6 +388,53 @@ export async function resetPassword(req, res) {
             success : true,
             error : false
         })
+    } catch(error) {
+        return res.status(500).json({
+            message : error.message || error,
+            success : false,
+            error : true
+        })
+    }
+}
+
+export async function refreshTokenController(req, res) {
+    try {
+        const refreshToken = req.cookies["refresh-token"] || req.header?.authorization?.split(" ")[1]
+        if (!refreshToken) {
+            return res.status(400).json({
+                message : "Please provide the refresh token",
+                success : false,
+                error : true
+            })
+        }
+
+        const verifyToken = await jwt.verify(refreshToken, process.env.SECRET_KEY_REFRESH_TOKEN)
+        if (!verifyToken) {
+            return res.status(400).json({
+                message : "Invalid refresh token",
+                success : false,
+                error : true
+            })
+        }
+
+        const userId = verifyToken?._id
+        const newAccessToken = await generateAccessToken(userId)
+        const cookiesOption = {
+            httpOnly : true,
+            secure : true,
+            sameSite : "None"
+        }
+        res.cookie("access-token", newAccessToken, cookiesOption)
+
+        return res.status(200).json({
+            message : "New access token generated successfully !!",
+            success : true,
+            error : false,
+            data : {
+                accessToken : newAccessToken
+            }
+        })
+
     } catch(error) {
         return res.status(500).json({
             message : error.message || error,
