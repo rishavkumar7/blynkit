@@ -408,7 +408,7 @@ export async function resetPassword(req, res) {
 
 export async function refreshTokenController(req, res) {
     try {
-        const refreshToken = req.cookies["refresh-token"] || req.header?.authorization?.split(" ")[1]
+        const refreshToken = req.cookies["refresh-token"] || req.headers?.authorization?.split(" ")[1]
         if (!refreshToken) {
             return res.status(400).json({
                 message : "Please provide the refresh token",
