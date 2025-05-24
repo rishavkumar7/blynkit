@@ -1,0 +1,95 @@
+import { createBrowserRouter } from "react-router-dom"
+import App from "../App.jsx"
+import Home from "../pages/Home.jsx"
+import SearchPage from "../pages/SearchPage.jsx"
+import Register from "../pages/Register.jsx"
+import Login from "../pages/Login.jsx"
+import ForgotPassword from "../pages/ForgotPassword.jsx"
+import VerifyForgotPasswordOtp from "../pages/VerifyForgotPasswordOtp.jsx"
+import ResetPassword from "../pages/ResetPassword.jsx"
+import UserMenuMobile from "../pages/UserMenuMobile.jsx"
+import Dashboard from "../layouts/Dashboard.jsx"
+import Profile from "../pages/Profile.jsx"
+import Orders from "../pages/Orders.jsx"
+import Address from "../pages/Address.jsx"
+import ProductsAdmin from "../pages/ProductsAdmin.jsx"
+import ProductUpload from "../pages/ProductUpload.jsx"
+import Category from "../pages/Category.jsx"
+import Subcategory from "../pages/Subcategory.jsx"
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <App />,
+        children: [
+            {
+                path: "",
+                element: <Home />
+            },
+            {
+                path: "search",
+                element: <SearchPage />
+            },
+            {
+                path: "register",
+                element: <Register />
+            },
+            {
+                path: "login",
+                element: <Login />
+            },
+            {
+                path: "forgot-password",
+                element: <ForgotPassword />
+            },
+            {
+                path: "verify-forgot-password-otp",
+                element: <VerifyForgotPasswordOtp />
+            },
+            {
+                path: "reset-password",
+                element: <ResetPassword />
+            },
+            {
+                path: "user-menu",
+                element: <UserMenuMobile />
+            },
+            {
+                path: "dashboard/",
+                element: <Dashboard />,
+                children: [
+                    {
+                        path: "profile",
+                        element: <Profile />
+                    },
+                    {
+                        path: "orders",
+                        element: <Orders />
+                    },
+                    {
+                        path: "address",
+                        element: <Address />
+                    },
+                    {
+                        path: "products",
+                        element: <ProductsAdmin />
+                    },
+                    {
+                        path: "product-upload",
+                        element: <ProductUpload />
+                    },
+                    {
+                        path: "category",
+                        element: <Category />
+                    },
+                    {
+                        path: "subcategory",
+                        element: <Subcategory />
+                    }
+                ]
+            }
+        ]
+    },
+])
+
+export default router
