@@ -24,6 +24,7 @@ const ProfileAvatarUploadSpace = ({ close }) => {
 
         const formData = new FormData()
         formData.append("avatar", file)
+        formData.append("subfolder", "user")
 
         try {
             setUploading(true)

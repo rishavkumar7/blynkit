@@ -200,7 +200,9 @@ export async function uploadUserAvatar(req, res) {
     try {
         const userId = req.userId
         const image = req.file
-        const upload = await uploadImageCloudinary(image)
+        const subfolder = req.body.subfolder || ""
+
+        const upload = await uploadImageCloudinary(image, subfolder)
 
         const updateUser = await UserModel.findByIdAndUpdate(userId, {
             avatar : upload.url
@@ -217,7 +219,7 @@ export async function uploadUserAvatar(req, res) {
         })
     } catch(error) {
         return res.status(500).json({
-            message : error.message || error,
+            message : error?.message || error,
             success : false,
             error : true
         })

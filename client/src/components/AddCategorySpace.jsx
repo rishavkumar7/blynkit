@@ -33,7 +33,7 @@ const AddCategorySpace = ({ fetchCategories, close }) => {
 
         setUploading(true)
 
-        const response = await uploadImage(file)
+        const response = await uploadImage(file, "category")
         const { data : responseData } = response
 
         setData(prev => {

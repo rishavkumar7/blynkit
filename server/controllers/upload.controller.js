@@ -3,6 +3,8 @@ import uploadImageCloudinary from "../utils/uploadImageCloudinary.js"
 export const uploadImageController = async (req, res) => {
     try {
         const file = req.file
+        const subfolder = req.body.subfolder || ""
+
         if (!file) {
             return res.status(400).json({
                 message : error.message || error,
@@ -11,7 +13,7 @@ export const uploadImageController = async (req, res) => {
             })
         }
 
-        const uploadedImage = await uploadImageCloudinary(file)
+        const uploadedImage = await uploadImageCloudinary(file, subfolder)
 
         return res.status(200).json({
             message : "Image uploaded successfully !!",
@@ -21,7 +23,7 @@ export const uploadImageController = async (req, res) => {
         })
     } catch(error) {
         return res.status(500).json({
-            message : error.message || error,
+            message : error?.message || error,
             success : false,
             error : true
         })

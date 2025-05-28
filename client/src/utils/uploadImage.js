@@ -1,10 +1,11 @@
 import Axios from "./Axios.jsx"
 import SummaryApi from "../common/SummaryApi.jsx"
 
-const uploadImage = async (image) => {
+const uploadImage = async (image, subfolderName) => {
     try {
         const formData = new FormData()
         formData.append("image", image)
+        formData.append("subfolder", subfolderName)
 
         const response = await Axios({
             ...SummaryApi.upload_image,

@@ -5,7 +5,7 @@ const AdminPermission = ({ children }) => {
     const user = useSelector(state => state.user)
 
     return (
-        <div>
+        <div className="w-full h-full">
             { isAdmin(user) ? children : <p className="p-4 text-center text-red-800 bg-red-200">User does not have permission</p> }
         </div>
     )
