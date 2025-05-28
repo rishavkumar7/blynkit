@@ -8,7 +8,7 @@ const Dashboard = () => {
                 <div className="bg-amber-50 sticky max-h-[calc(100vh-167px)] top-21 py-4 px-8 my-5 lg:col-span-1 hidden lg:block">
                     <UserMenu />
                 </div>
-                <div className="bg-amber-50 ml-0 px-10 lg:px-20 py-10 lg:col-span-4 lg:border-l border-neutral-400">
+                <div className="bg-amber-50 min-h-[81vh] ml-0 lg:col-span-4 lg:border-l border-neutral-400">
                     <Outlet />
                 </div>
             </div>

@@ -48,7 +48,7 @@ const ProfileAvatarUploadSpace = ({ close }) => {
 
     return (
         <div>
-            <section className="fixed top-0 bottom-0 left-0 right-0 p-4 bg-[rgba(0,0,0,0.7)] flex items-center justify-center">
+            <section className="fixed top-0 bottom-0 left-0 right-0 p-4 bg-[rgba(0,0,0,0.7)] flex items-center justify-center z-200">
                 <div className="max-w-sm w-full rounded bg-slate-200 p-4 flex flex-col items-center justify-center gap-2">
                     <button onClick={ handleProfileAvatarSpaceCloseClick } className="text-neutral-500 block ml-auto cursor-pointer"><IoClose size={ 25 } /></button>
                     <div className="w-35 h-35 rounded-full overflow-hidden flex items-center justify-center border-6">

@@ -72,7 +72,7 @@ const Profile = () => {
     }
 
     return (
-        <div>
+        <div className="px-10 lg:px-20 py-10">
             <div className="w-35 h-35 rounded-full flex items-center justify-center overflow-hidden ring-4">
                 {
                     user?.avatar ? (

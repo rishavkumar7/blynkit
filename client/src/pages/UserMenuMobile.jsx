@@ -10,7 +10,7 @@ const UserMenuMobile = () => {
     }
 
     return (
-        <section className="bg-amber-50 fixed inset-0">
+        <section className="bg-amber-50 fixed inset-0 z-200">
             <div className="flex justify-end">
                 <button onClick={ handleCloseButtonClick } className="text-neutral-700 mt-4 mr-4"><MdOutlineClose size={ 30 } /></button>
             </div>

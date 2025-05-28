@@ -6,6 +6,8 @@ import morgan from "morgan"
 import helmet from "helmet"
 import connectDB from "./config/connect-db.js"
 import userRoute from "./routes/user.route.js"
+import categoryRoute from "./routes/category.route.js"
+import uploadRoute from "./routes/upload.route.js"
 
 dotenv.config()
 
@@ -29,6 +31,8 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/user", userRoute)
+app.use("/api/category", categoryRoute)
+app.use("/api/file", uploadRoute)
 
 const port = process.env.PORT || 9500
 
