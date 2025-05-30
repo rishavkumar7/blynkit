@@ -124,7 +124,7 @@ const Category = () => {
         <section className="w-full h-full">
             <div className="relative h-14 px-4 flex items-center justify-between shadow-sm">
                 <h2 className="text-xl text-neutral-600 font-bold tracking-wide">Category</h2>
-                <button onClick={ handleAddCategoryButtonClick } className={ `fixed right-2 z-50 px-2 py-1 font-semibold rounded bg-blue-800 hover:bg-blue-700 active:bg-blue-600 text-white cursor-pointer ${ scrolled && "shadow-[0_0_50px_30px_rgba(0,0,0,1)] bg-white/80 hover:bg-white/90 active:bg-white/100 text-yellow-950" }` } >Add Category</button>
+                <button onClick={ handleAddCategoryButtonClick } className={ `fixed right-[clamp(1rem,2vw,3rem)] z-50 px-2 py-1 font-semibold rounded bg-blue-800 hover:bg-blue-700 active:bg-blue-600 text-white cursor-pointer ${ scrolled && "shadow-[0_0_50px_30px_rgba(0,0,0,1)] bg-white/80 hover:bg-white/90 active:bg-white/100 text-yellow-950" }` } >Add Category</button>
             </div>
             {
                 loading && (
@@ -151,7 +151,7 @@ const Category = () => {
                     <ConfirmBox message={ `Are you sure you want to delete "${ currentDeletingCategory?.name }" category permanently ?` } confirm={ handleConfirmDeleteButtonClick } cancel={ handleCloseConfirmBoxButtonClick } close={ handleCloseConfirmBoxButtonClick } />
                 )
             }
-            <div className="px-8 py-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm-gap-4 md:gap-5 lg:gap-6">
+            <div className="px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm-gap-4 md:gap-5 lg:gap-6">
                 {
                     categories.map((category, index) => {
                         return (
