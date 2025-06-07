@@ -1,12 +1,16 @@
 import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { IoClose } from "react-icons/io5"
 import toast from "react-hot-toast"
 import uploadImage from "../utils/uploadImage.js"
 import AxiosToastError from "../utils/AxiosToastError.jsx"
 import SummaryApi from "../common/SummaryApi.jsx"
 import Axios from "../utils/Axios.jsx"
+import { setCategoryDetails } from "../store/productSlice.js"
 
-const EditCategorySpace = ({ currentCategory, fetchCategories, close }) => {
+const EditCategorySpace = ({ setCategories, currentCategory, close }) => {
+    const dispatch = useDispatch()
+    const categories = useSelector(state => state?.product?.categories)
     const [ uploading, setUploading ] = useState(false)
     const [ updating, setUpdating ] = useState(false)
     const [ data, setData ] = useState({
@@ -14,6 +18,8 @@ const EditCategorySpace = ({ currentCategory, fetchCategories, close }) => {
         name : currentCategory?.name,
         image : currentCategory?.image
     })
+
+    const handleButtonColor = Object.keys(data).every(key => data[key] === currentCategory[key])
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -59,8 +65,16 @@ const EditCategorySpace = ({ currentCategory, fetchCategories, close }) => {
 
             const { data : responseData } = response
             if (responseData?.success) {
+                const editIndex = categories.findIndex(category => category?._id === currentCategory?._id)
+                const newCategories = [ ...categories ]
+                newCategories[editIndex] = {
+                    ...data,
+                    createdAt : currentCategory?.createdAt,
+                    updatedAt : new Date().toISOString()
+                }
+                setCategories(newCategories)
+                dispatch(setCategoryDetails(newCategories))
                 toast.success(responseData?.message)
-                fetchCategories()
                 close()
             }
         } catch(error) {
@@ -110,7 +124,7 @@ const EditCategorySpace = ({ currentCategory, fetchCategories, close }) => {
                             <input onChange={ handleUploadImage } disabled={ !data.name } type="file" id="uploadImage" className="hidden" />
                         </div>
                     </div>
-                    <button disabled={ !(data?.name && data?.image) } className={ `${ (data?.name && data?.image) ? "bg-green-700 hover:bg-green-600 active:bg-green-500" : "bg-gray-500" } text-white mt-4 p-2 font-semibold tracking-wider rounded ${ (data?.name && data?.image ) ? "cursor-pointer" : "cursor-default" }` } >
+                    <button disabled={ !(data?.name && data?.image) || handleButtonColor } className={ `${ !(data?.name && data?.image) || handleButtonColor ? "bg-gray-500" : "bg-green-700 hover:bg-green-600 active:bg-green-500" } text-white mt-4 p-2 font-semibold tracking-wider rounded ${ !(data?.name && data?.image ) || handleButtonColor ? "cursor-default" : "cursor-pointer" }` } >
                         {
                             updating ? (
                                 "Updating ..."
