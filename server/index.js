@@ -9,6 +9,7 @@ import userRoute from "./routes/user.route.js"
 import categoryRoute from "./routes/category.route.js"
 import uploadRoute from "./routes/upload.route.js"
 import subcategoryRoute from "./routes/subcategory.route.js"
+import productRoute from "./routes/product.route.js"
 
 dotenv.config()
 
@@ -36,6 +37,7 @@ app.use("/api/user", userRoute)
 app.use("/api/category", categoryRoute)
 app.use("/api/file", uploadRoute)
 app.use("/api/subcategory", subcategoryRoute)
+app.use("/api/product", productRoute)
 
 const port = process.env.PORT || 9500
 

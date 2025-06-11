@@ -9,7 +9,7 @@ cloudinary.config({
 const uploadImageCloudinary = async (image, subfolder) => {
     try{
         const buffer = image?.buffer || Buffer.from(await image.arrayBuffer())
-        const folderPath = `blynkit${ subfolder ? "/" + subfolder : "" }`
+        const folderPath = `blynkit/dev${ subfolder ? "/" + subfolder : "" }`
 
         const uploadImage = await new Promise((resolve, reject) => {
             cloudinary.uploader.upload_stream({ folder : folderPath }, (error, uploadResult) => {

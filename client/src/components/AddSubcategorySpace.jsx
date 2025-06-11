@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { IoClose } from "react-icons/io5";
-import toast from "react-hot-toast";
-import uploadImage from "../utils/uploadImage.js";
-import AxiosToastError from "../utils/AxiosToastError.jsx";
-import SummaryApi from "../common/SummaryApi.jsx";
-import Axios from "../utils/Axios.jsx";
-import CategoryChip from "./CategoryChip.jsx";
-import { setSubcategoryDetails } from "../store/productSlice.js";
+import { useDispatch, useSelector } from "react-redux"
+import { IoClose } from "react-icons/io5"
+import toast from "react-hot-toast"
+import uploadImage from "../utils/uploadImage.js"
+import AxiosToastError from "../utils/AxiosToastError.jsx"
+import SummaryApi from "../common/SummaryApi.jsx"
+import Axios from "../utils/Axios.jsx"
+import CategoryChip from "./CategoryChip.jsx"
+import { setSubcategoryDetails } from "../store/productSlice.js"
 
 const AddSubcategorySpace = ({ setSubcategories, close }) => {
     const dispatch = useDispatch()

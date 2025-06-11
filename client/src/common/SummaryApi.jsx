@@ -77,6 +77,10 @@ const SummaryApi = {
         url : "api/subcategory/delete",
         method : "delete"
     },
+    add_product : {
+        url : "api/product/add",
+        method : "post"
+    }
 }
 
 export default SummaryApi

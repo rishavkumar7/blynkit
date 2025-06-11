@@ -88,7 +88,6 @@ export const updateSubcategoryController = async (req, res) => {
 export const deleteSubcategoryController = async (req, res) => {
     try {
         const { _id } = req.body
-        console.log("reached here")
 
         const productCount = await ProductModel.find({
             sub_category : {
