@@ -5,7 +5,7 @@ import { addCategoryController, deleteCategoryController, getAllCategoriesContro
 const categoryRoute = Router()
 
 categoryRoute.post("/add", auth, addCategoryController)
-categoryRoute.get("/get", auth, getAllCategoriesController)
+categoryRoute.get("/get", getAllCategoriesController)
 categoryRoute.put("/update", auth, updateCategoryController)
 categoryRoute.delete("/delete", auth, deleteCategoryController)
 

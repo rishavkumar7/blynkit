@@ -80,6 +80,18 @@ const SummaryApi = {
     add_product : {
         url : "api/product/add",
         method : "post"
+    },
+    get_products : {
+        url : "api/product/get",
+        method : "post"
+    },
+    update_product : {
+        url : "api/product/update",
+        method : "put"
+    },
+    delete_product : {
+        url : "api/product/delete",
+        method : "delete"
     }
 }
 
