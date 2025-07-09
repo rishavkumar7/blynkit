@@ -48,7 +48,7 @@ const ProductsAdmin = () => {
                 ...SummaryApi.get_products,
                 data : {
                     page : currentPageNumber,
-                    limit : 1,
+                    limit : 8,
                     filterOptions : filterOptions
                 }
             })

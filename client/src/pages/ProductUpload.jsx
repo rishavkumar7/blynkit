@@ -103,7 +103,7 @@ const ProductUpload = () => {
 
         setUploading(true)
 
-        const response = await uploadImage(file, `product/${ data?.name }`)
+        const response = await uploadImage(file, `product/${ data?.name.normalize().replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, ' ').trim() }`)
         const { data : responseData } = response
 
         setData(prev => {
