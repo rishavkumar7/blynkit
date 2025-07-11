@@ -1,6 +1,6 @@
-import { TiEdit } from "react-icons/ti";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { FaRupeeSign } from "react-icons/fa";
+import { TiEdit } from "react-icons/ti"
+import { RiDeleteBin6Line } from "react-icons/ri"
+import { FaRupeeSign } from "react-icons/fa"
 
 const ProductCard = ({ openProductSpace, openEditSpace, openConfirmBox, product }) => {
     const handleOpenProductClick = () => {

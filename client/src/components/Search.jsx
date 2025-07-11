@@ -20,7 +20,7 @@ const Search = () => {
     }
 
     return (
-        <div className="w-full h-10 bg-slate-200 min-w-[300px] lg:min-w-[500px] rounded-lg border border-neutral-300 text-neutral-500 overflow-hidden flex items-center group focus-within:border-blue-800">
+        <div className="w-full h-10 bg-slate-200 min-w-[250px] md:min-w-[300px] lg:min-w-[500px] rounded-lg border border-neutral-300 text-neutral-500 overflow-hidden flex items-center group focus-within:border-blue-800">
             <div>
                 {
                     (isMobile && isSearchPage) ? (
@@ -67,7 +67,7 @@ const Search = () => {
                         </div>
                     ) : (
                         <div className="w-full h-full">
-                            <input type="text" placeholder="Search for atta, dal and more..." autoFocus={ true } className="bg-transparent w-full h-full outline-none" />
+                            <input type="text" placeholder="Search for atta, dal and more..." autoFocus={ true } className="pr-2 bg-transparent w-full h-full outline-none sm:placeholder:text-[80%] md:placeholder:text-[85%] lg:placeholder:text-[100%]" />
                         </div>
                     )
                 }

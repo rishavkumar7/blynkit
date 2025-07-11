@@ -21,7 +21,6 @@ const Home = () => {
     const [ expandCategories, setExpandCategories ] = useState(false)
     const [ leftScrollCategories, setLeftScrollCategories ] = useState(false)
     const [ rightScrollCategories, setRightScrollCategories ] = useState(true)
-    const [ expandProducts, setExpandProducts ] = useState([])
     const [ leftScrollProducts, setLeftScrollProducts ] = useState([])
     const [ rightScrollProducts, setRightScrollProducts ] = useState([])
     const [ categoryProducts, setCategoryProducts ] = useState([])
@@ -111,7 +110,6 @@ const Home = () => {
 
     useEffect(() => {
         if (categories?.length) {
-            setExpandProducts(new Array(categories?.length).fill(false))
             setLeftScrollProducts(new Array(categories?.length).fill(false))
             setRightScrollProducts(new Array(categories?.length).fill(true))
             setCategoryProducts(new Array(categories?.length).fill({
@@ -161,7 +159,7 @@ const Home = () => {
                 clearTimeout(timeouts[index])
             })
         }
-    }, [ expandProducts, categories?.length ])
+    }, [ categories?.length ])
 
     useEffect(() => {
         fetchProductsFromAllCategories()
@@ -280,8 +278,8 @@ const Home = () => {
         })
     }
 
-    const handleExpandProductsButtonClick = (index) => {
-        setExpandProducts(prev => prev.map((value, ind) => ind === index ? !value : value))
+    const handleExpandProductsButtonClick = (category) => {
+        handleCategoryCardClick(category)
     }
 
     const handleProductScrollRefs = (index) => (ref) => {
@@ -383,17 +381,17 @@ const Home = () => {
                         <div key={ index } className="my-4 sm:my-6">
                             <div className="flex items-center justify-between">
                                 <h2 className="font-bold text-md sm:text-xl text-neutral-600">{ category?.name }</h2>
-                                <p onClick={ () => handleExpandProductsButtonClick(index) } className="text-xs sm:text-lg text-neutral-600 hover:text-blue-500 font-semibold cursor-pointer">
-                                    { expandProducts[index] ? "Show less" : "See all" }
+                                <p onClick={ () => handleExpandProductsButtonClick(category) } className="text-xs sm:text-lg text-neutral-600 hover:text-blue-500 font-semibold cursor-pointer">
+                                    See all
                                 </p>
                             </div>
                             <div className="w-full relative">
-                                <div ref={ handleProductScrollRefs(index) } className={ `w-full ${ !expandProducts[index] ? "px-2 overflow-x-auto no-scrollbar [&::-webkit-scrollbar]:hidden" : "" }` } >
-                                    <div className={ `my-3 grid ${ !expandProducts[index] ? "grid-flow-col auto-cols-[45%] sm:auto-cols-[33%] md:auto-cols-[25%] lg:auto-cols-[14%] gap-2 sm:gap-4" : "grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-6" }` } >
+                                <div ref={ handleProductScrollRefs(index) } className={ `w-full px-2 overflow-x-auto no-scrollbar [&::-webkit-scrollbar]:hidden` } >
+                                    <div className={ `my-3 grid grid-flow-col auto-cols-[45%] sm:auto-cols-[33%] md:auto-cols-[25%] lg:auto-cols-[14%] gap-2 sm:gap-4` } >
                                         {
                                             categoryProducts[index]?.productList.map((product, index) => {
                                                 return (
-                                                    <div key={ index } className={ `${ expandProducts[index] ? "col-span-1" : "" }` } >
+                                                    <div key={ index } className="" >
                                                         <ProductCard openProductSpace={ handleProductCardClick } product={ product } />
                                                     </div>
                                                 )
@@ -402,14 +400,14 @@ const Home = () => {
                                     </div>
                                 </div>
                                 {
-                                    !expandProducts[index] && [ ...leftScrollProducts ][index] && (
+                                    [ ...leftScrollProducts ][index] && (
                                         <div className="absolute left-[-1%] top-0 w-[8%] sm:w-[4%] h-full bg-[linear-gradient(to_right,_rgba(255,251,235,1)_40%,_transparent_100%)] flex items-center justify-start" >
                                             <FaChevronLeft onClick={ () => { handleLeftScrollProductsButtonClick(index) } } size={ scrollArrowSize } className="cursor-pointer" />
                                         </div>
                                     )
                                 }
                                 {
-                                    !expandProducts[index] && [ ...rightScrollProducts ][index] && (
+                                    [ ...rightScrollProducts ][index] && (
                                         <div className="absolute right-[-1%] top-0 w-[8%] sm:w-[4%] h-full bg-[linear-gradient(to_left,_rgba(255,251,235,1)_40%,_transparent_100%)] flex items-center justify-end" >
                                             <FaChevronRight onClick={ () => { handleRightScrollProductsButtonClick(index) } } size={ scrollArrowSize } className="cursor-pointer" />
                                         </div>
