@@ -9,6 +9,8 @@ const Search = () => {
     const [ isSearchPage, setIsSearchPage ] = useState(false)
     const navigate = useNavigate()
     const [ isMobile ] = useMobile() 
+    const searchParams = new URLSearchParams(location?.search)
+    const searchQuery = searchParams.get("q") || ""
 
     useEffect(() => {
         const isSearch = location.pathname === "/search"
@@ -17,6 +19,15 @@ const Search = () => {
 
     const redirectToSearchPage = () => {
         navigate("/search")
+    }
+
+    const handleSearchQueryChange = (e) => {
+        const searchQuery = e?.target?.value.trim()
+        if (searchQuery) {
+            navigate(`/search?q=${ encodeURIComponent(searchQuery) }`)
+        } else {
+            navigate("/search")
+        }
     }
 
     return (
@@ -67,7 +78,7 @@ const Search = () => {
                         </div>
                     ) : (
                         <div className="w-full h-full">
-                            <input type="text" placeholder="Search for atta, dal and more..." autoFocus={ true } className="pr-2 bg-transparent w-full h-full outline-none sm:placeholder:text-[80%] md:placeholder:text-[85%] lg:placeholder:text-[100%]" />
+                            <input onChange={ handleSearchQueryChange } type="text" defaultValue={ searchQuery } placeholder="Search for atta, dal and more..." autoFocus={ true } className="pr-2 bg-transparent w-full h-full outline-none sm:placeholder:text-[80%] md:placeholder:text-[85%] lg:placeholder:text-[100%]" />
                         </div>
                     )
                 }

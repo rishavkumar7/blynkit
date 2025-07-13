@@ -59,7 +59,7 @@ const Header = () => {
                                     <button onClick={ handleProfileIconClick } className="text-neutral-600 pt-1 sm:hidden"><CgProfile size={ 30 } /></button>
                                 )
                             }
-                            <div className="hidden sm:flex items-center gap-2">
+                            <div className="hidden sm:flex items-center gap-2 lg:gap-6">
                                 {
                                     user?._id ? (
                                         <div className="relative">

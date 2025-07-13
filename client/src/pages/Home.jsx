@@ -16,7 +16,7 @@ const Home = () => {
     const categories = useSelector(state => state?.product?.categories)
     const subcategories = useSelector(state => state?.product?.subcategories)
     const [ isSmallWindowType, setIsSmallWindowType ] = useState(window?.innerWidth < 640)
-    const [ currentCarouselImage, setCurrentCarouselImage ] = useState(0)
+    const [ currentCarouselImage, setCurrentCarouselImage ] = useState(1)
     const [ isTransitionAllowed, setIsTransitionAllowed ] = useState(true)
     const [ expandCategories, setExpandCategories ] = useState(false)
     const [ leftScrollCategories, setLeftScrollCategories ] = useState(false)
