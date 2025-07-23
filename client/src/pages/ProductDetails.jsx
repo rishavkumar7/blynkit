@@ -1,18 +1,80 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
-import { FaRupeeSign, FaExpandArrowsAlt } from "react-icons/fa"
+import toast from "react-hot-toast"
+import { FaRupeeSign, FaExpandArrowsAlt, FaPlus, FaMinus } from "react-icons/fa"
 import calculateDiscountedPrice from "../utils/calculateDiscountedPrice.js"
 import bestPricesOffersImage from "../assets/best-prices-offers.png"
 import fastDeliveryImage from "../assets/minute-delivery.png"
 import wideAssortmentImage from "../assets/wide-assortment.png"
+import { useCart } from "../utils/GlobalCartProvider.jsx"
 
 const ProductDetails = () => {
     const location = useLocation()
+    const cartContext = useCart()
+    const cartData = cartContext?.cartData
+    const [ cartItemData, setCartItemData ] = useState({
+        cart_item_id : "",
+        product_id : "",
+        quantity : 0
+    })
     const [ product, setProduct ] = useState(location?.state?.product)
     const [ currentImageIndex, setCurrentImageIndex ] = useState(0)
 
+    const updateCartItemData = () => {
+        const cartItemInfo = [ ...cartData ].find(item => item?.product?._id === product?._id) || {}
+        setCartItemData({
+            cart_item_id : cartItemInfo?.cart_item_id,
+            product_id : cartItemInfo?.product?._id,
+            quantity : Number(cartItemInfo?.quantity) || 0
+        })
+    }
+
+    useEffect(() => {
+        updateCartItemData()
+    }, [ cartData ])
+
     const handleSmallImageClick = (index) => {
         setCurrentImageIndex(index)
+    }
+
+    const handleAddProductButtonClick = () => {
+        if (cartItemData && cartItemData?.quantity !== 0) {
+            toast.error("Item is already included in the cart. You are only allowed to change its quantity.")
+            return
+        }
+        cartContext?.addItemToShoppingCart(product)
+    }
+
+    const handleDecreaseCartItemQuantityButtonClick = () => {
+        if (cartItemData?.quantity <= 0) {
+            toast.error("Quantity cannot be negative")
+            return
+        }
+        if (cartItemData?.quantity === 1) {
+            cartContext?.removeItemFromShoppingCart(product?._id)
+        } else {
+            cartContext?.updateItemQuantityInShoppingCart(product?._id, cartItemData?.quantity - 1)
+        }
+        setCartItemData(prev => {
+            return {
+                ...prev,
+                quantity : prev?.quantity - 1
+            }
+        })
+    }
+
+    const handleIncreaseCartItemQuantityButtonClick = () => {
+        if (cartItemData?.quantity >= product?.stock) {
+            toast.error("Product quantity cannot exceed the stock limit.")
+            return
+        }
+        cartContext?.updateItemQuantityInShoppingCart(product?._id, cartItemData?.quantity + 1)
+        setCartItemData(prev => {
+            return {
+                ...prev,
+                quantity : prev?.quantity + 1
+            }
+        })
     }
 
     return (
@@ -77,10 +139,28 @@ const ProductDetails = () => {
                     <div className="pl-2 tracking-wider" >
                         {
                             product?.stock > 0 ? (
-                                <div className="flex items-center gap-4 lg:gap-8">                                    
-                                    <button className="mb-2 p-2 px-4 bg-green-700 hover:bg-green-600 active:bg-green-500 font-bold tracking-wider text-sm lg:text-lg text-nowrap text-white rounded cursor-pointer">
-                                        Add to Cart
-                                    </button>
+                                <div className="flex items-center gap-4 lg:gap-8">
+                                    {
+                                        (cartItemData && cartItemData?.quantity !== 0) ? (
+                                            <div className="mb-2 p-[3px] lg:p-[5px] flex items-center gap-3 lg:gap-4 border-2 border-neutral-200 rounded-lg">
+                                                <button onClick={ handleDecreaseCartItemQuantityButtonClick } className="p-2 rounded bg-green-700 hover:bg-green-600 active:bg-green-500 text-white cursor-pointer">
+                                                    <FaMinus className="text-md lg:text-2xl" />
+                                                </button>
+                                                <div className="min-w-10 flex items-center justify-center font-bold text-2xl text-neutral-600 cursor-default">
+                                                    { cartItemData?.quantity }
+                                                </div>
+                                                <button onClick={ handleIncreaseCartItemQuantityButtonClick } className="p-2 rounded bg-green-700 hover:bg-green-600 active:bg-green-500 text-white cursor-pointer">
+                                                    <FaPlus className="text-md lg:text-2xl" />
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div className="mb-2 p-[3px] lg:p-[5px] flex items-center border-2 border-neutral-200 rounded-lg">
+                                                <button onClick={ handleAddProductButtonClick } className="min-w-32 lg:min-w-38 p-1.5 px-4 bg-green-700 hover:bg-green-600 active:bg-green-500 font-bold tracking-wider text-sm lg:text-lg text-nowrap text-white rounded cursor-pointer">
+                                                    Add to Cart
+                                                </button>
+                                            </div>
+                                        )
+                                    }
                                     <div className="text-green-700 font-semibold  text-xs lg:text-sm">
                                         { `${ product?.stock <= 10 ? "Only " : "" } ${ product?.stock } item${ product?.stock > 1 ? "s" : "" } left in stock.` }
                                     </div>
