@@ -24,6 +24,14 @@ const auth = async (req, res, next) => {
 
         next()
     } catch(error) {
+        if (error.name === "TokenExpiredError") {
+            return res.status(401).json({
+                message : "Token has expired",
+                success : false,
+                error : true
+            })
+        }
+
         return res.status(500).json({
             message : error.message || error,
             success : false,

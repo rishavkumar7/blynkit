@@ -428,7 +428,7 @@ export async function refreshTokenController(req, res) {
             })
         }
 
-        const userId = verifyToken?._id
+        const userId = verifyToken?.id
         const newAccessToken = await generateAccessToken(userId)
         const cookiesOption = {
             httpOnly : true,
