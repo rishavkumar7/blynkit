@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
+import { useSelector } from "react-redux"
 import toast from "react-hot-toast"
 import { FaRupeeSign, FaExpandArrowsAlt, FaPlus, FaMinus } from "react-icons/fa"
 import calculateDiscountedPrice from "../utils/calculateDiscountedPrice.js"
@@ -10,6 +11,7 @@ import { useCart } from "../utils/GlobalCartProvider.jsx"
 
 const ProductDetails = () => {
     const location = useLocation()
+    const user = useSelector(state => state?.user)
     const cartContext = useCart()
     const cartData = cartContext?.cartData
     const [ cartItemData, setCartItemData ] = useState({
@@ -136,42 +138,46 @@ const ProductDetails = () => {
                             { `(Inclusive of all taxes)` }
                         </span>
                     </div>
-                    <div className="pl-2 tracking-wider" >
-                        {
-                            product?.stock > 0 ? (
-                                <div className="flex items-center gap-4 lg:gap-8">
-                                    {
-                                        (cartItemData && cartItemData?.quantity !== 0) ? (
-                                            <div className="mb-2 p-[3px] lg:p-[5px] flex items-center gap-3 lg:gap-4 border-2 border-neutral-200 rounded-lg">
-                                                <button onClick={ handleDecreaseCartItemQuantityButtonClick } className="p-2 rounded bg-green-700 hover:bg-green-600 active:bg-green-500 text-white cursor-pointer">
-                                                    <FaMinus className="text-md lg:text-2xl" />
-                                                </button>
-                                                <div className="min-w-10 flex items-center justify-center font-bold text-2xl text-neutral-600 cursor-default">
-                                                    { cartItemData?.quantity }
-                                                </div>
-                                                <button onClick={ handleIncreaseCartItemQuantityButtonClick } className="p-2 rounded bg-green-700 hover:bg-green-600 active:bg-green-500 text-white cursor-pointer">
-                                                    <FaPlus className="text-md lg:text-2xl" />
-                                                </button>
+                    {
+                        user?._id && (
+                            <div className="pl-2 tracking-wider" >
+                                {
+                                    product?.stock > 0 ? (
+                                        <div className="flex items-center gap-4 lg:gap-8">
+                                            {
+                                                (cartItemData && cartItemData?.quantity !== 0) ? (
+                                                    <div className="mb-2 p-[3px] lg:p-[5px] flex items-center gap-3 lg:gap-4 border-2 border-neutral-200 rounded-lg">
+                                                        <button onClick={ handleDecreaseCartItemQuantityButtonClick } className="p-2 rounded bg-green-700 hover:bg-green-600 active:bg-green-500 text-white cursor-pointer">
+                                                            <FaMinus className="text-md lg:text-2xl" />
+                                                        </button>
+                                                        <div className="min-w-10 flex items-center justify-center font-bold text-2xl text-neutral-600 cursor-default">
+                                                            { cartItemData?.quantity }
+                                                        </div>
+                                                        <button onClick={ handleIncreaseCartItemQuantityButtonClick } className="p-2 rounded bg-green-700 hover:bg-green-600 active:bg-green-500 text-white cursor-pointer">
+                                                            <FaPlus className="text-md lg:text-2xl" />
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <div className="mb-2 p-[3px] lg:p-[5px] flex items-center border-2 border-neutral-200 rounded-lg">
+                                                        <button onClick={ handleAddProductButtonClick } className="min-w-32 lg:min-w-38 p-1.5 px-4 bg-green-700 hover:bg-green-600 active:bg-green-500 font-bold tracking-wider text-sm lg:text-lg text-nowrap text-white rounded cursor-pointer">
+                                                            Add to Cart
+                                                        </button>
+                                                    </div>
+                                                )
+                                            }
+                                            <div className="text-green-700 font-semibold  text-xs lg:text-sm">
+                                                { `${ product?.stock <= 10 ? "Only " : "" } ${ product?.stock } item${ product?.stock > 1 ? "s" : "" } left in stock.` }
                                             </div>
-                                        ) : (
-                                            <div className="mb-2 p-[3px] lg:p-[5px] flex items-center border-2 border-neutral-200 rounded-lg">
-                                                <button onClick={ handleAddProductButtonClick } className="min-w-32 lg:min-w-38 p-1.5 px-4 bg-green-700 hover:bg-green-600 active:bg-green-500 font-bold tracking-wider text-sm lg:text-lg text-nowrap text-white rounded cursor-pointer">
-                                                    Add to Cart
-                                                </button>
-                                            </div>
-                                        )
-                                    }
-                                    <div className="text-green-700 font-semibold  text-xs lg:text-sm">
-                                        { `${ product?.stock <= 10 ? "Only " : "" } ${ product?.stock } item${ product?.stock > 1 ? "s" : "" } left in stock.` }
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="text-red-600 font-bold text-lg lg:text-xl">
-                                    { `Out of Stock` }
-                                </div>
-                            )
-                        }
-                    </div>
+                                        </div>
+                                    ) : (
+                                        <div className="text-red-600 font-bold text-lg lg:text-xl">
+                                            { `Out of Stock` }
+                                        </div>
+                                    )
+                                }
+                            </div>
+                        )
+                    } 
                     <div className="mt-4 px-1 flex flex-col gap-1">
                         <div className="font-semibold tracking-wide text-md lg:text-lg text-neutral-600">Description</div>
                         <div className="p-2 lg:px-4 text-sm lg:text-[95%] text-neutral-600 bg-neutral-200 rounded-lg">

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { Toaster } from 'react-hot-toast'
@@ -42,6 +42,27 @@ function App() {
     fetchUserShoppingCartItems()
     fetchCategory()
     fetchSubcategory()
+  }, [])
+
+  useEffect(() => {
+    const handleReload = () => {
+      window.location.reload()
+    }
+
+    const storageListener = (e) => {
+      if (e.key === "reload-app-trigger") {
+        localStorage.removeItem("reload-app-trigger")
+        handleReload()
+      }
+    }
+
+    window.addEventListener("custom-reload-event", handleReload)
+    window.addEventListener("storage", storageListener)
+
+    return () => {
+      window.removeEventListener("custom-reload-event", handleReload)
+      window.removeEventListener("storage", storageListener)
+    }
   }, [])
 
   return (

@@ -34,6 +34,8 @@ const UserMenu = ({ close }) => {
                 localStorage.clear()
                 toast.success(response.data?.message)
                 navigate("/")
+                window.dispatchEvent(new Event("custom-reload-event"))
+                localStorage.setItem("reload-app-trigger", true)
             }
         } catch(error) {
             AxiosToastError(error)

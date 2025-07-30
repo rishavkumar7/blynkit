@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 import toast from "react-hot-toast"
 import { TiEdit } from "react-icons/ti"
 import { RiDeleteBin6Line } from "react-icons/ri"
@@ -6,6 +7,7 @@ import { FaRupeeSign, FaPlus, FaMinus } from "react-icons/fa"
 import { useCart } from "../utils/GlobalCartProvider.jsx"
 
 const ProductCard = ({ openProductSpace, openEditSpace, openConfirmBox, product }) => {
+    const user = useSelector(state => state?.user)
     const cartContext = useCart()
     const cartData = cartContext?.cartData
     const [ cartItemData, setCartItemData ] = useState({
@@ -110,7 +112,7 @@ const ProductCard = ({ openProductSpace, openEditSpace, openConfirmBox, product 
                             </div>
                         </div>
                         {
-                            openProductSpace && (
+                            (openProductSpace && user?._id) && (
                                 <div className="w-full mt-1" >
                                     {
                                         product?.stock > 0 ? (

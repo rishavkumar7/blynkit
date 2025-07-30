@@ -50,16 +50,18 @@ const Login = () => {
 
                 localStorage.setItem("access-token", response.data.data.accessToken)
                 localStorage.setItem("refresh-token", response.data.data.refreshToken)
-
+                
                 const userData = await fetchUserDetails()
                 dispatch(setUserDetails(userData.data))
-
+                
                 setData({
                     email : "",
                     password : ""
                 })
                 
                 navigate("/")
+                window.dispatchEvent(new Event("custom-reload-event"))
+                localStorage.setItem("reload-app-trigger", true)
             }
         } catch(error) {
             AxiosToastError(error)
