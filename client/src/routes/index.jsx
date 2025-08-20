@@ -19,6 +19,7 @@ import Subcategory from "../pages/Subcategory.jsx"
 import AdminPermission from "../components/AdminPermission.jsx"
 import ProductListing from "../pages/ProductListing.jsx"
 import ProductDetails from "../pages/ProductDetails.jsx"
+import Checkout from "../pages/Checkout.jsx"
 
 const router = createBrowserRouter([
     {
@@ -108,6 +109,10 @@ const router = createBrowserRouter([
                         element : <ProductDetails />
                     }
                 ]
+            },
+            {
+                path: "checkout",
+                element: <Checkout />
             }
         ]
     },

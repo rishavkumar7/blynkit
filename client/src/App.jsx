@@ -9,10 +9,12 @@ import fetchUserDetails from './utils/fetchUserDetails.js'
 import fetchCategoryDetails from "./utils/fetchCategoryDetails.js"
 import fetchSubcategoryDetails from './utils/fetchSubcategoryDetails.js'
 import fetchCartItemsDetails from './utils/fetchCartItemsDetails.js'
+import fetchAddressDetails from "./utils/fetchAddressDetails.js"
 import { setUserDetails } from './store/userSlice.js'
 import { setCategoryDetails, setSubcategoryDetails } from './store/productSlice.js'
 import { setCartItemsDetails } from './store/cartSlice.js'
 import { CartProvider } from "./utils/GlobalCartProvider.jsx"
+import { setAddressDetails } from './store/addressSlice.js'
 
 function App() {
   const dispatch = useDispatch()
@@ -34,12 +36,20 @@ function App() {
 
   const fetchUserShoppingCartItems = async () => {
     const cartData = await fetchCartItemsDetails()
-    dispatch(setCartItemsDetails(cartData?.data?.shopping_cart))
+    const sortedCartData = [ ...cartData?.data?.shopping_cart ].sort((firstAddress, secondAddress) => new Date(secondAddress.createdAt) - new Date(firstAddress.createdAt))
+    dispatch(setCartItemsDetails(sortedCartData))
+  }
+
+  const fetchAddress = async () => {
+    const addressData = await fetchAddressDetails()
+    const sortedAddressData = [ ...addressData?.data ].sort((firstAddress, secondAddress) => new Date(secondAddress.createdAt) - new Date(firstAddress.createdAt))
+    dispatch(setAddressDetails(sortedAddressData))
   }
 
   useEffect(() => {
     fetchUser()
     fetchUserShoppingCartItems()
+    fetchAddress()
     fetchCategory()
     fetchSubcategory()
   }, [])

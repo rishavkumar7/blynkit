@@ -13,7 +13,7 @@ const CartItemCard = ({ cartItem }) => {
     }
 
     const handleDeleteCartItemButtonClick = () => {
-        cartContext?.removeItemFromShoppingCart(cartItem?.product?._id)
+        cartContext?.removeItemFromShoppingCart(cartItem?.product?._id, cartItem?.cart_item_id)
     }
 
     const handleDecreaseCartItemQuantityButtonClick = () => {
@@ -22,7 +22,7 @@ const CartItemCard = ({ cartItem }) => {
             return
         }
         if (cartItem?.quantity === 1) {
-            cartContext?.removeItemFromShoppingCart(cartItem?.product?._id)
+            cartContext?.removeItemFromShoppingCart(cartItem?.product?._id, cartItem?.cart_item_id)
         } else {
             cartContext?.updateItemQuantityInShoppingCart(cartItem?.product?._id, cartItem?.quantity - 1)
         }

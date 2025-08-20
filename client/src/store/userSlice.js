@@ -41,6 +41,12 @@ const userSlice = createSlice({
             state.email = action?.payload?.email
             state.mobile = action?.payload?.mobile
         },
+        updateUserAddressDetails : (state, action) => {
+            state.address_details = action?.payload
+        },
+        updateUserShoppingCart : (state, action) => {
+            state.shopping_cart = action?.payload
+        },
         logout : (state, action) => {
             state._id = ""
             state.name = ""
@@ -58,5 +64,5 @@ const userSlice = createSlice({
     }
 })
 
-export const { setUserDetails, updateAvatar, updateUser, logout } = userSlice.actions
+export const { setUserDetails, updateAvatar, updateUser, updateUserAddressDetails, updateUserShoppingCart, logout } = userSlice.actions
 export default userSlice.reducer

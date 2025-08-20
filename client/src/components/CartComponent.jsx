@@ -52,7 +52,10 @@ const CartComponent = () => {
     }
 
     const handleProceedButtonClick = () => {
-
+        if (cartData.length > 0) {
+            cartContext?.setOpenCart(false)
+            navigate("/checkout")
+        }
     }
 
     return (

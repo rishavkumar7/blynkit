@@ -53,7 +53,7 @@ const ProductDetails = () => {
             return
         }
         if (cartItemData?.quantity === 1) {
-            cartContext?.removeItemFromShoppingCart(product?._id)
+            cartContext?.removeItemFromShoppingCart(product?._id, cartItemData?.cart_item_id)
         } else {
             cartContext?.updateItemQuantityInShoppingCart(product?._id, cartItemData?.quantity - 1)
         }

@@ -4,12 +4,14 @@ import toast from "react-hot-toast"
 import Axios from "./Axios.jsx"
 import AxiosToastError from "./AxiosToastError.jsx"
 import SummaryApi from "../common/SummaryApi.jsx"
+import { updateUserShoppingCart } from "../store/userSlice.js"
 import { addItemToCart, updateCartItemQuantity, removeItemFromCart } from "../store/cartSlice.js"
 
 const CartContext = createContext()
 
 export const CartProvider = ({ children }) => {
     const dispatch = useDispatch()
+    const userShoppingCart = useSelector(state => state?.user?.shopping_cart)
     const cartData = useSelector(state => state?.cart?.cartItems)
     const [ openCart, setOpenCart ] = useState(false)
 
@@ -32,6 +34,8 @@ export const CartProvider = ({ children }) => {
                     updatedAt : responseData?.data?.updatedAt
                 }
                 dispatch(addItemToCart(newCartItem))
+                const newUserShoppingCart = [ responseData?.data?._id, ...userShoppingCart ]
+                dispatch(updateUserShoppingCart(newUserShoppingCart))
                 toast.success(responseData?.message)
             }
         } catch(error) {
@@ -58,7 +62,7 @@ export const CartProvider = ({ children }) => {
         }
     }
 
-    const removeItemFromShoppingCart = async (productId) => {
+    const removeItemFromShoppingCart = async (productId, cartItemId) => {
         try {
             const response = await Axios({
                 ...SummaryApi.delete_item_from_cart,
@@ -70,6 +74,8 @@ export const CartProvider = ({ children }) => {
             const { data : responseData } = response
             if (responseData?.success) {
                 dispatch(removeItemFromCart(productId))
+                const newUserShoppingCart = userShoppingCart.filter(userCartItemId => userCartItemId !== cartItemId)
+                dispatch(updateUserShoppingCart(newUserShoppingCart))
                 toast.success("Item has been removed from the cart successfully !!")
             }
         } catch(error) {
