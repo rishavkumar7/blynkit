@@ -37,7 +37,7 @@ const UserMenu = ({ close }) => {
                     navigate("/")
                     window.dispatchEvent(new Event("custom-reload-event"))
                     localStorage.setItem("reload-app-trigger", true)
-                }, 1000)
+                }, 5000)
             }
         } catch(error) {
             AxiosToastError(error)
