@@ -59,9 +59,11 @@ const Login = () => {
                     password : ""
                 })
                 
-                navigate("/")
-                window.dispatchEvent(new Event("custom-reload-event"))
-                localStorage.setItem("reload-app-trigger", true)
+                setTimeout(() => {
+                    navigate("/")
+                    window.dispatchEvent(new Event("custom-reload-event"))
+                    localStorage.setItem("reload-app-trigger", true)
+                }, 500);
             }
         } catch(error) {
             AxiosToastError(error)
